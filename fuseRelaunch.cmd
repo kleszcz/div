@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "simprims_ver" -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -o "D:/Documents/xilinx/div/div_tb_isim_translate.exe" -prj "D:/Documents/xilinx/div/div_tb_translate.prj" "work.div_tb" "work.glbl" 
