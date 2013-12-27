@@ -1,0 +1,3 @@
+verilog work "snc.v"
+verilog work "ctrl.v"
+verilog work "div.v"
