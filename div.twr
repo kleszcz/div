@@ -2,7 +2,7 @@
 Release 14.7 Trace  (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-D:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4
+C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 4
 -n 3 -fastpaths -xml div.twx div.ncd -o div.twr div.pcf
 
 Design file:              div.ncd
@@ -95,7 +95,7 @@ denom<3>       |overflow       |    8.608|
 ---------------+---------------+---------+
 
 
-Analysis completed Fri Dec 27 13:43:13 2013 
+Analysis completed Sat Jan 18 20:36:58 2014 
 --------------------------------------------------------------------------------
 
 Trace Settings:

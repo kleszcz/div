@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -lib "simprims_ver" -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -o "D:/Documents/xilinx/div/div_tb_isim_translate.exe" -prj "D:/Documents/xilinx/div/div_tb_translate.prj" "work.div_tb" "work.glbl" 
+-intstyle "ise" -incremental -lib "simprims_ver" -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -o "C:/Users/Jan/Documents/GitHub/div/div_tb_isim_par.exe" -prj "C:/Users/Jan/Documents/GitHub/div/div_tb_par.prj" "work.div_tb" "work.glbl" 

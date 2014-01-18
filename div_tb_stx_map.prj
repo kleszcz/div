@@ -1,0 +1,2 @@
+verilog isim_temp "netgen/map/div_map.v"
+verilog isim_temp "div_tb.v"

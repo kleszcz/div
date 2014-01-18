@@ -1,0 +1,2 @@
+verilog work "netgen/map/div_map.v"
+verilog work "div_tb.v"

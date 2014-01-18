@@ -9,11 +9,11 @@ Target Device  : xc3s700an
 Target Package : fgg484
 Target Speed   : -4
 Mapper Version : spartan3a -- $Revision: 1.55 $
-Mapped Date    : Fri Dec 27 13:42:18 2013
+Mapped Date    : Sat Jan 18 20:36:41 2014
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 INFO:Security:50 - The XILINXD_LICENSE_FILE environment variable is set to
-'2110@127.0.0.1'.
+'2110@localhost'.
 INFO:Security:53 - The LM_LICENSE_FILE environment variable is not set.
 INFO:Security:54 - 'xc3s700an' is a WebPack part.
 WARNING:Security:43 - No license file was found in the standard Xilinx license
@@ -22,9 +22,9 @@ WARNING:Security:44 - Since no license file was found,
        please run the Xilinx License Configuration Manager
        (xlcm or "Manage Xilinx Licenses")
        to assist in obtaining a license.
-WARNING:Security:42 - Your license support version '2013.12' for ISE expires in
-4 days after which you will not qualify for Xilinx software updates or new
-releases.
+WARNING:Security:42 - Your software subscription period has lapsed. Your current
+version of Xilinx tools will continue to function, but you no longer qualify for
+Xilinx software updates or new releases.
 ----------------------------------------------------------------------
 Mapping design into LUTs...
 Running directed packing...
@@ -52,9 +52,9 @@ Logic Distribution:
 
 Average Fanout of Non-Clock Nets:                3.64
 
-Peak Memory Usage:  300 MB
-Total REAL time to MAP completion:  13 secs 
-Total CPU time to MAP completion:   3 secs 
+Peak Memory Usage:  308 MB
+Total REAL time to MAP completion:  1 secs 
+Total CPU time to MAP completion:   1 secs 
 
 NOTES:
 

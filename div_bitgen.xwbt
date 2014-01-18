@@ -1,8 +1,8 @@
 INTSTYLE=ise
-INFILE=D:\Documents\xilinx\div\div.ncd
-OUTFILE=D:\Documents\xilinx\div\div.bit
+INFILE=C:\Users\Jan\Documents\GitHub\div\div.ncd
+OUTFILE=C:\Users\Jan\Documents\GitHub\div\div.bit
 FAMILY=Spartan3A and Spartan3AN
 PART=xc3s700an-4fgg484
-WORKINGDIR=D:\Documents\xilinx\div
+WORKINGDIR=C:\Users\Jan\Documents\GitHub\div
 LICENSE=ISE
 USER_INFO=176281944_174171439_210552577_064
