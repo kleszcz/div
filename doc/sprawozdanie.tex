@@ -1,0 +1,101 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\author{Jan Kleszczyński i Michał Wielgus}
+\title{PSC01: ,,Moduł dzielący binarnie dla liczb bez znaku''}
+\date{2013/2014}
+
+\usepackage{fullpage}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[hypcap]{caption}
+\usepackage{perpage}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\lstset{
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	language=octave,
+	numbers=left,
+	showstringspaces=true,
+	stepnumber=1,
+	tabsize=4,
+	captionpos=b,
+	title=\lstname,
+	frame=single,
+	float
+}
+
+\renewcommand{\listfigurename}{Spis ilustracji}
+\renewcommand{\figurename}{Ilustracja}
+
+\renewcommand{\thefootnote}{\alph{footnote}}
+\begin{document}
+\pagenumbering{roman}
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
+\clearpage
+\setcounter{page}{1} \pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Zadanie}
+Ćwiczenie polegało na zaprojektowaniu i zaimplementowaniu w Verilogu modułu dzielącego 8b dzielną przez 4b dzielnik (bez znaku).
+
+TODO:
+\begin{itemize}
+	\item opis architektury: ctrl/data path
+	\item graf stanów, parametryzacja, timingi
+	\item opis resetu - async, potrzebny tylko raz (na starcie)
+	\item raport syntezy - elimminacja ostrzeżeń o latchach, rozpoznanie fsm, czy zasoby się zgadzają
+\end{itemize}
+\section{Realizacja}
+
+% TODO: zasoby
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r||c|l}
+		ctrl  & przerzutniki & logika sekwencyjna  \\
+		snc   & przerzutniki & logika sekwencyjna  \\
+		div   & przerzutniki & logika sekwencyjna  \\
+		\hline\hline
+		            & 8 wyjść   &  \\
+	\end{tabular}
+\end{table}
+
+\clearpage
+% TODO: opis modułu
+\subsection{\texttt{ctrl}}
+\subsubsection{Opis}
+\begin{table}[!h]
+	\begin{tabular}{r|c l}
+		zadanie      & \multicolumn{2}{l}{Generuje pseudolosowy ciąg o okresie 7}\\
+		architektura & \multicolumn{2}{l}{FSM}                                   \\
+		wejścia      & FIXME       & FIXME                                       \\
+		stan         & FIXME       & FIXME                                       \\
+		wyjścia      & FIXME       & FIXME                                       \\
+	\end{tabular}
+\end{table}
+\subsubsection{Implementacja}
+\subsubsection{Synteza}
+\clearpage
+\section{Testowanie}
+Mamy testbench z parametryzowalnym zegarem. Symulacja ,,Post translate'' nie wykryła żadnych problemów nawet dla zegara o częstotliwości 2ns, ,,Post-Place \& Route Simulation'' daje radę dla:
+\begin{verbatim}
+raport mowi. ze min. okres to 5.9costam, nasze pomiary spondzosci:
+5.00 >> a = load (['test.dat']); sum(a(:,end-2:end) == 1)
+        4096        4096        4096
+4.50 >> a = load (['test.dat']); sum(a(:,end-2:end) == 1)
+        4007        3964        4096
+4.25 >> a = load (['test.dat']); sum(a(:,end-2:end) == 1)
+        3606        3498        4096
+4.00 >> a = load (['test.dat']); sum(a(:,end-2:end) == 1)
+        2353        2325        4096
+\end{verbatim}
+\section{Wnioski}
+\end{document}
