@@ -1,0 +1,18 @@
+digraph G {
+    graph [rankdir = LR];
+
+	//graph[splines=ortho];
+    node[shape=record]
+
+	div [label="{{<num> num [2n-:0] | <denom> denom [n-1:0] | <clk> clk | <rst> rst | <start> start } | div #n | {<quotient> quotient[n-1:0] | <remainder> remainder [n-1:0] | <rdy> rdy | <overflow> overflow}}"];
+	ctrl[label="{{<clk>clk | <rst>rst | <start>start | <cmpr>cmpr | <shft>shft | <ld>ld | <sub>sub | <rdy>rdy | <overflow>overflow}} | ctrl#n "];
+	snc [label="{{<num>num [2n-:0] | <denom> denom [n-1:0] |  <clk> clk |  <rst> rst |  <shft> shft | <ld>ld | <sub> sub | <quotient> quotient [n-1:0] | <remainder> remainder [n-1:0] | cmpr} | snc}"];
+	
+	div:num   -> snc:num
+	div:denom -> snc:denom
+	div:clk   -> ctrl:clk
+	div:clk   -> snc:clk
+	div:rst   -> ctrl:rst
+	div:rst   -> snc:rst
+	ctrl:ld   -> snc:ld
+}

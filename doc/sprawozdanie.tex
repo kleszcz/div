@@ -1,0 +1,155 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\author{Jan Kleszczyński i Michał Wielgus}
+\title{PSC01: ,,Moduł dzielący binarnie dla liczb bez znaku''}
+\date{2013/2014}
+
+\usepackage{fullpage}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[hypcap]{caption}
+\usepackage{perpage}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\renewcommand{\listfigurename}{Spis ilustracji}
+\renewcommand{\figurename}{Ilustracja}
+
+\renewcommand{\thefootnote}{\alph{footnote}}
+\begin{document}
+\pagenumbering{roman}
+\maketitle
+\tableofcontents
+\listoffigures
+\listoftables
+\clearpage
+\setcounter{page}{1} \pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Zadanie}
+Ćwiczenie polegało na zaprojektowaniu i zaimplementowaniu w Verilogu modułu dzielącego 8b dzielną przez 4b dzielnik (oba argumenty bez znaku).
+
+Zgodnie z poleceniem zaprojektowany moduł składa się z 3 części:
+\begin{itemize}
+\item Ścieżki sterowania (moduł \texttt{ctrl})
+\item Ścieżki danych (moduł \texttt{snc}, od ,,subtract'n'compare'')
+\item Łączącego je w całość modułu \texttt{div}
+\end{itemize}
+
+Wszystkie wspomniane moduły są parametryzowane długością dzielnika (parametr $N$), tak naprawdę mamy zatem do czynienia z ogólnym dzielnikiem dzielącym $2N$-bitowe dzielne znaku przez $N$-bitowe dzielniki. Opis modułów znajduje się w sekcji \ref{sec:impl}.
+
+Zgodnie z treścią zadania moduł reaguje na asynchroniczny sygnał reset (linia \texttt{rst}), który potrzebny jest tylko jeden raz, zaraz po starcie (chociaż oczywiście może być używany później, celem np. przerwania obliczeń).
+
+\section{Implementacja} \label{sec:impl}
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{r|| l l l}
+		div   &  połączenia, instancje                             &                    &                   \\
+		ctrl  &  5 przerzutników                                   & logika sekwencyjna & maszyna Mealy'ego \\
+		snc   &  9 przerzutników, $5b$ komparator, $5b$ subtraktor & logika sekwencyjna & maszyna Moore'a   \\
+		\hline\hline
+		      & 14 przerzutników, $5b$ komparator, $5b$ subtraktor &                    & \\
+	\end{tabular}
+\end{table}
+
+\subsection{\texttt{div}}
+\begin{table}[!h]
+	\begin{tabular}{r|c|l}
+		zadanie      & \multicolumn{2}{l}{Logicznie: wykonanie dzielenia $8b$ dzielnej przez $4b$ dzielnik.} \\
+		             & \multicolumn{2}{l}{Fizycznie: instancjonowanie i połączenie podmodułów} \\
+		architektura & \multicolumn{2}{l}{FSMD} \\
+		\hline
+		wejścia      & num         & dzielna  ($2N b$) \\
+		             & denom       & dzielnik ($N b$)  \\
+		             & clk         & zegar             \\
+		             & rst         & reset (async)     \\
+		             & start       & sygnał rozpoczęcia działania \\
+		\hline
+		stan         & \multicolumn{2}{l}{w podmodułach} \\
+		\hline
+		wyjścia      & quotient    & iloraz \\
+		             & remainder   & reszta \\
+		             & overflow    & flaga przepełnienia \\
+		             & rdy         & koniec operacji \\
+	\end{tabular}
+\end{table}
+\subsection{\texttt{ctrl}}
+\begin{table}[!h]
+	\begin{tabular}{r|c l}
+		zadanie      & \multicolumn{2}{l}{Control unit: sterowanie modułem \texttt{snc}} \\
+		architektura & \multicolumn{2}{l}{Dwuprocesowy automat Mealy'ego} \\
+		\hline
+		wejścia      & clk         & zegar             \\
+		             & rst         & reset (async)     \\
+		             & start       & sygnał rozpoczęcia działania \\
+		             & cmpr        & porównanie dzielnika z 5MSb akumulatora \texttt{snc} \\
+		\hline
+		stan         & \multicolumn{2}{l}{4-stanowy FSM + $(lg(N)+1)$-bitowy licznik} \\
+		\hline
+		wyjścia      & shft     & rozkaz przesunięcia akumulatora \\
+		             & ld       & rozkaz ładowania danych \\
+		             & sub      & rozkaz odejmowania      \\
+		             & rdy      & koniec operacji     \\
+		             & overflow & flaga przepełnienia \\
+	\end{tabular}
+\end{table}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=.8\textwidth]{out/fsm.pdf}
+	\caption{Diagram stanów dla modułu \texttt{ctrl}.}
+	\label{fig:test}
+\end{figure}
+\subsection{\texttt{snc}}
+\begin{table}[!h]
+	\begin{tabular}{r|c l}
+		zadanie      & \multicolumn{2}{l}{Datapath: Realizacja poleceń \texttt{ctrl}} \\
+		architektura & \multicolumn{2}{l}{Jednoprocesowy automat Mealy'ego}           \\
+		\hline
+		wejścia      & num      & dzielna  ($2N b$) \\
+		             & denom    & dzielnik ($N b$)  \\
+		             & clk      & zegar             \\
+		             & rst      & reset (async)     \\
+		             & shft     & rozkaz przesunięcia akumulatora \\
+		             & ld       & rozkaz ładowania danych \\
+		             & sub      & rozkaz odejmowania      \\
+		\hline
+		stan         & \multicolumn{2}{l}{$(2N+1)-bitowy akumulator$} \\
+		\hline
+		wyjścia      & quotient    & iloraz \\
+		             & remainder   & reszta \\
+		             & cmpr        & porównanie dzielnika z 5MSb akumulatora \texttt{snc} \\
+	\end{tabular}
+\end{table}
+\subsection{Synteza}
+Synteza przebiega bez żadnych błędów i ostrzeżeń.
+Poprawnie wykryty został FSM w module ctrl (4 stany, taktowanie sygnałem clk, asynchroniczny reset).
+
+Początkowo planowaliśmy, aby stan \texttt{RDY} oznaczał ,,dane na szynach wyjściowych są wynikiem dzielenia'' i był aktywny tylko przez jeden cykl zegara - po nim oraz po resecie układ miał przechodzić w stan \texttt{IDLE} - zrezygnowaliśmy z tego stanu wydłużając impuls na \texttt{RDY} i zmieniając jego znaczenie na ,,może być wykonana następna operacja, wyniki ew. poprzedniej operacji są gotowe''.
+Dzięki temu oszczędziliśmy 1 przerzutnik i uniknęliśmy powstania stanów zabronionych.
+
+W module \texttt{snc} poprawnie wykryty został $5b$ komparator, $5b$ subtraktora i $9b$ rejestr.
+Starsza implementacja, zakomentowana w kodzie nad obecną zawierała bardziej zwięzły zapis, ale skutkowała użyciem $9b$ subtraktora - to kolejna oszczędność, którą poczyniliśmy po analizie raportu.
+
+Finalnie użyte (w sumie): 1 $5b$ subtraktor (vs. $9b$), 1 $3b$ licznik, $5b$ komparator, 14 przerzutników (9 na rejestr w datapath, pozostałe 5 na stan ctrl (2), licznik w ctrl (3))
+\section{Testowanie}
+Przygotowaliśmy moduł testujący \texttt{div\_tb}, który przechodzi po wszystkich możliwych wartościach dzielnej i dzielnika i zapisuje do pliku dzielną, dzielnik, iloraz, resztę, flagę \texttt{overflow} i 3 wartości logiczne, mówiące o tym czy 3 wyjścia mają poprawne wartości (niezależnie od ich stanu, wyjścia \texttt{quotient} i \texttt{remainder} uważamy za poprawne, jeżeli flaga \texttt{overflow} jest ustawiona.
+
+Minimalny okres sugerowany przez syntezę to $T = 5.279ns$.
+Symulacja ,,Post translate'' nie wykryła żadnych problemów nawet dla zegara o częstotliwości 2ns, dopiero ,,Post-Place \& Route'' pokazała jakieś błędy.
+Analizę zautomatyzowaliśmy prostym jednolinijkowcem MATLABa, który zlicza liczbę poprawnych wartości dla każdego z 3 wyjść (\texttt{a = load('test.dat'); sum(a(:,end-2:end) == 1)}).
+Dla testowanego przykładu chcemy uzyskać we wszystkich kolumnach wartości 4096 (odpowiadające wszystkim $2^(4+8)$ możliwym wejściom).
+Poniższa tabela pokazuje jak zaczynając od $T = 4.000ns$ liczba poprawnych wyników wysyca się nieco przed konserwatywnie estymowanym progiem $5.279ns$.
+\begin{table}[!h]
+	\begin{tabular}{r|c c c}
+		T [ns]  & poprawne dzielniki & poprawne reszty & poprawne flagi przepełnienia \\
+		\hline
+		5.000 & 4096 & 4096 & 4096 \\
+		4.500 & 4007 & 3964 & 4096 \\
+		4.250 & 3606 & 3498 & 4096 \\
+		4.000 & 2353 & 2325 & 4096 \\
+	\end{tabular}
+	\caption{Wyniki testów}
+\end{table}
+\end{document}

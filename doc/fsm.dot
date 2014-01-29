@@ -1,0 +1,21 @@
+digraph fsm {
+	rankdir="LR"
+	//node [shape = circle];
+
+	void  -> RDY   [label="rst"];
+	RDY   -> LOAD  [label="start"]
+	RDY   -> RDY   [label="!start"]
+	LOAD  -> SUB
+	SUB   -> RDY   [label="overflow"]
+	SUB   -> SHIFT [label="!overflow"]
+	SHIFT -> SUB   [label="pos"]
+	SHIFT -> RDY   [label="!pos"]
+	//ld, rdy, sub, shft
+
+	RDY   [label="RDY\nrdy=1"]
+	LOAD  [label="LOAD\nld=1"]
+	SUB   [label="SUB\nsub = !overflow && cmpr"]
+	SHIFT [label="SHIFT\nshft=pos"]
+
+	void [shape = point];
+}
