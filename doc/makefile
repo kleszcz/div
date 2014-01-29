@@ -21,7 +21,7 @@ clean:
 	-rm -rv out/*
 
 out/%.pdf: %.dot
-	dot -Tps "$^" | ps2pdf - "$@"
+	dot -Tps "$^" | ps2pdf -sPAPERSIZE=a0 - "$@"
 	pdfcrop "$@" "$@"
 
 .PHONY: edit view spellcheck clean
